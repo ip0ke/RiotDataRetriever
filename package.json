@@ -1,0 +1,21 @@
+{
+  "name": "riotdataretriever",
+  "version": "1.0.0",
+  "description": "retrieves match data from riot",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "riot",
+    "data",
+    "analysis"
+  ],
+  "author": "davidcellnigg",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "json2csv": "^4.0.4",
+    "mongoose": "^5.0.14"
+  }
+}
