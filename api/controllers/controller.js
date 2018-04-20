@@ -1,11 +1,14 @@
 const https = require('https');
 var mongoose = require('mongoose'),
     RiotApiData = mongoose.model('RiotApiData');
+var sanitizer = require('sanitizer');
 
-const apikey = "RGAPI-05436ff1-eae7-4045-beb7-cd34c4ee854d";
+const apikey = "RGAPI-baffcf51-1ded-44be-829d-000fe5b9819d";
 const queue = "440";
 const accountId = "27998135"; //Account David
 const testtimestamp = "";
+
+const maxMatchNumber = 100;
 
 //proof of concept #2
 exports.avgGameDuration = function (req, res) {
@@ -66,7 +69,7 @@ exports.updateMatches = function (req,res) {
                 for (var match in matchesResponse.matches) {
 
                     console.log("match with matchId " + matchesResponse.matches[match].gameId + " will be requested to save in db");
-                    //saveMatchData(matchesResponse.matches[match].gameId);
+                    saveMatchData(matchesResponse.matches[match].gameId);
                 }
 
             });
@@ -88,6 +91,33 @@ exports.updateMatches = function (req,res) {
     /**/
 
     //TODO: get match information for those matches and save to DB
+
+};
+
+exports.getMatches = function (req, res) {
+    
+    console.log("number of matches from parameters: " + req.query.number);
+    
+    var numberOfMatches = sanitizer.escape(req.query.number); 
+    //console.log("number of matches after getting them from parameters: " + numberOfMatches);
+    if(numberOfMatches == null){
+        numberOfMatches = 20;
+    } else if (numberOfMatches == 0 || numberOfMatches < 0){
+        numberOfMatches = 20;
+    } else if (numberOfMatches > maxMatchNumber){
+        numberOfMatches = maxMatchNumber;
+    } 
+
+    console.log("number of matches after checking: " + numberOfMatches);
+
+    var getNMatchesPromise = getNMatches(numberOfMatches);
+    getNMatchesPromise.then(function(result){
+
+        res.json(result);
+
+    }, function (err) {
+        console.log(err);
+    })
 
 };
 
@@ -115,6 +145,8 @@ function getLastTimeStamp(){
        
     });
 }
+
+
 
 function saveMatchData (matchId){
     
@@ -217,6 +249,28 @@ function saveMatchData (matchId){
 
     }).on('error', (e) => {
         console.error(e);
+    });
+
+};
+
+function getNMatches (numberOfMatches){
+
+    var matchModel = mongoose.model('RiotApiData');
+
+    return new Promise(function (resolve, reject) {
+        matchModel.find({}).sort({ 'gameCreation': -1 }).limit(parseInt(numberOfMatches)).exec(function (err, matches) {
+
+            if (err) {
+                console.log(err);
+                return null;
+            }
+            if (matches.length === 0) {
+                resolve("empty");
+            } else {
+                resolve(matches);
+            }
+        });
+
     });
 
 };

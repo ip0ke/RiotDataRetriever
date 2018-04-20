@@ -15,7 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
-    "json2csv": "^4.0.4",
-    "mongoose": "^5.0.14"
+    "json2csv": "^4.1.2",
+    "mongoose": "^5.0.15",
+    "sanitizer": "^0.1.3"
   }
 }
