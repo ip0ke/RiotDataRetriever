@@ -19,3 +19,6 @@ routes(app); //register the route
 app.listen(port);
 
 console.log('RiotDataRetriever server started on: ' + port);
+
+var riotdataretriever = require('./api/controllers/controller');
+riotdataretriever.updateMatches();

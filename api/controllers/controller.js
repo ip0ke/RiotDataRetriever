@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
     RiotApiData = mongoose.model('RiotApiData');
 var sanitizer = require('sanitizer');
 
-const apikey = "RGAPI-baffcf51-1ded-44be-829d-000fe5b9819d";
+const apikey = "RGAPI-3608dafb-67a8-45df-89ed-148d411cd273";
 const queue = "440";
 const accountId = "27998135"; //Account David
 const testtimestamp = "";
