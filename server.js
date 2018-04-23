@@ -2,8 +2,8 @@ var express = require('express'),
     app = express(),
     port = process.env.PORT || 8888,
     mongoose = require('mongoose'),
-    RiotApiData = require('./api/models/baseschema');
-
+    RiotApiData = require('./api/models/baseschema'),
+    riotdataretriever = require('./api/controllers/controller');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://riotapidatauser:VY72vHSenWUUQVIV@cluster0-shard-00-00-vm1vb.mongodb.net:27017,cluster0-shard-00-01-vm1vb.mongodb.net:27017,cluster0-shard-00-02-vm1vb.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
@@ -20,5 +20,5 @@ app.listen(port);
 
 console.log('RiotDataRetriever server started on: ' + port);
 
-var riotdataretriever = require('./api/controllers/controller');
+
 riotdataretriever.updateMatches();
